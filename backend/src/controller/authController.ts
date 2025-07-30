@@ -3,6 +3,7 @@ import { User, UserInterface } from "../model/User";
 import { generateOTP } from "../utils/generateOTP";
 import { sendOTP } from "../utils/sendOTP";
 import jwt from "jsonwebtoken"
+import { AuthRequest } from "../middleware/authMiddleware";
 
 export const sendOtp = async(req:Request,res:Response) => {
     try {
@@ -58,15 +59,23 @@ export const verifyOtp = async(req:Request,res:Response) => {
         // check if user exists , otp is provided , otp is valid and also otp isn't expired
         const user : UserInterface | null = await User.findOne({email});
 
-        if(!user || user.otp !== otp || !user.otpExpiry || user.otpExpiry < new Date()){
-            return res.status(400).json({ 
-                message:"Invalid or expired OTP"
-            });
+        if (!user) {
+        return res.status(400).json({ message: "User not found" });
+        }
+
+        // check if OTP is expired or not
+        if (!user.otpExpiry || user.otpExpiry < new Date()) {
+       return res.status(400).json({ message: "OTP expired" });
+        }
+
+        // validate the OTP
+        if (user.otp !== otp) {
+        return res.status(400).json({ message: "Invalid OTP" });
         }
 
         // clear OTP fields
-        user.otp = "";
-        user.otpExpiry = new Date(0);
+        user.otp = undefined;
+        user.otpExpiry = undefined;
         await user.save();
 
         if(!process.env.JWT_SECRET){
@@ -80,9 +89,21 @@ export const verifyOtp = async(req:Request,res:Response) => {
         { expiresIn:"1d"}
         );
 
-        return res.status(200).json({ token, user});
+        return res.status(200).json({ message:"OTP verified successfully",token, user});
     } catch (error) {
          return res.status(500).json({ message: "OTP verification failed", error: error });
     }
 }
+
+export const getCurrentUser = async (req: AuthRequest, res: Response) => {
+  try {
+    const user = await User.findById(req.user?.id).select("-otp -otpExpiry");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch user", error });
+  }
+};
 

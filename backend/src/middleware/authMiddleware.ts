@@ -1,8 +1,13 @@
 import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
+interface JwtUser {
+    id: string;
+    email: string;
+}
+
 export interface AuthRequest extends Request {
-    user?: string | JwtPayload;
+    user?: JwtUser;
 }
 
 export const authMiddleware = (req: AuthRequest,res:Response,next:NextFunction) => {
@@ -17,13 +22,13 @@ export const authMiddleware = (req: AuthRequest,res:Response,next:NextFunction) 
 
         const token = authHeader.split(" ")[1];
 
-        const decoded = jwt.verify(token,process.env.JWT_SECRET!);
+        const decoded = jwt.verify(token,process.env.JWT_SECRET!) as JwtUser;
         req.user = decoded;
 
         next(); 
     }   catch(error) {
         return res.status(401).json({
-            message:"Invalid or expired token";
+            message:"Invalid or expired token"
         })
     }
 }
