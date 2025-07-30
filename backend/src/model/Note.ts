@@ -1,15 +1,14 @@
 import mongoose, { Document, Schema } from "mongoose";
-import { ref } from "process";
 
-export interface NOTES extends Document {
+export interface NotesInterface extends Document {
     user:mongoose.Types.ObjectId,
     note:string,
 }
 
 
-const noteSchema = new Schema<NOTES>({
+const noteSchema = new Schema<NotesInterface>({
     user: {type:Schema.Types.ObjectId,ref:"User",required:true},
     note: {type:String,required:true},
 });
 
-export const Note = mongoose.model<NOTES>("Note",noteSchema)
+export const Note = mongoose.model<NotesInterface>("Note",noteSchema)
