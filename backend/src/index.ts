@@ -4,6 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv"
 import authRoutes from "./route/authRoutes";
 import noteRoutes from "./route/noteRoutes";
+import dashboardRoutes from "./route/dashboardRoutes";
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ app.use(express.json())
 
 app.use("/api/auth",authRoutes);
 app.use("/api/notes",noteRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 app.get("/", (req:Request,res:Response) => {
     res.json({ message: "Server started"});
