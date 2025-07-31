@@ -6,14 +6,14 @@ const SignInPage = () => {
 
       <div className="flex flex-col w-full md:w-1/2 min-h-screen bg-white p-6">
         <div className="">
-          <img src="/logo.png" className="w-24" alt="Logo" />
+          <img src="/logo.png" className="w-16 md:w-24" alt="Logo" />
         </div>
 
         <div className="flex-1 flex items-center justify-center">
           <SignInForm />
         </div>
       </div>
-      
+
       <div className="hidden md:block w-1/2 h-full">
         <img
           src="/container.png"

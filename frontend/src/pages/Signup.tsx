@@ -6,7 +6,7 @@ const SignupPage = () => {
         <div className="flex flex-col w-full md:w-1/2 min-h-screen">
 
         <div className="mb-8 p-2">
-          <img src="/logo.png" className="w-24" alt="Logo" />
+          <img src="/logo.png" className="w-16 md:w-24" alt="Logo" />
         </div>
 
         <div className="flex-1 flex items-center justify-center">

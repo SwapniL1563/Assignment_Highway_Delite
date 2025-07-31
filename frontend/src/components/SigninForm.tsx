@@ -55,8 +55,8 @@ const SignInForm = () => {
   return (
     <div className="w-full max-w-md flex items-center justify-center bg-white">
       <div className="flex flex-col gap-4 px-2 py-10 w-full">
-        <h2 className="text-4xl font-bold text-start text-[#232323]">Sign in</h2>
-        <p className="text-lg text-[#969696] mb-2">
+        <h2 className="text-3xl md:text-4xl font-bold text-start text-[#232323]">Sign in</h2>
+        <p className="md:text-lg text-[#969696] mb-2">
           Please login to continue to your account.
         </p>
 
@@ -98,7 +98,7 @@ const SignInForm = () => {
           </>
         )}
 
-        <p className="text-[#969696] text-lg text-center mt-2">
+        <p className="text-[#969696] md:text-lg text-center mt-2">
           Need an account? {" "}
           <span
             onClick={() => navigate("/signup")}
