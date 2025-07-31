@@ -9,13 +9,27 @@ import dashboardRoutes from "./route/dashboardRoutes";
 dotenv.config();
 
 const app = express();
-app.use(cors({
-  origin: "https://assignment-highway-delite.vercel.app", // your Vercel domain
-  methods: ["GET", "POST", "PUT", "DELETE"],
+const allowedOrigins = [
+  "https://assignment-highway-delite.vercel.app", // frontend deployed
+  "http://localhost:5173" // dev
+];
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+    optionsSuccessStatus: 200 
+  })
+);
+
+app.options("*", cors({
+  origin: allowedOrigins,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
-app.use(express.json())
 
 app.use("/api/auth",authRoutes);
 app.use("/api/notes",noteRoutes);
