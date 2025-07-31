@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
 
-const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+const ProtectedRoute = ({ children }: { children: ReactNode}) => {
   const [loading, setLoading] = useState(true);
   const [isAuth, setIsAuth] = useState(false);
 
@@ -14,9 +16,9 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
       setLoading(false);
       return;
     }
-    
+
     axios
-      .get("http://localhost:5000/api/dashboard", {
+      .get(`${API_BASE_URL}/api/dashboard`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => setIsAuth(true))

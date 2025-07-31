@@ -13,6 +13,9 @@ interface User {
   email: string;
 }
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+
 const Dashboard = () => {
   const [user, setUser] = useState<User | null>(null);
   const [notes, setNotes] = useState<Note[]>([]);
@@ -27,12 +30,12 @@ const Dashboard = () => {
       try {
         if (!token) return navigate("/");
 
-        const resUser = await axios.get("http://localhost:5000/api/auth/me", {
+        const resUser = await axios.get(`${API_BASE_URL}/api/auth/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUser(resUser.data);
 
-        const resNotes = await axios.get("http://localhost:5000/api/notes", {
+        const resNotes = await axios.get(`${API_BASE_URL}/api/notes`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setNotes(resNotes.data);
@@ -56,7 +59,7 @@ const Dashboard = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/notes/create",
+        `${API_BASE_URL}/api/notes/create`,
         { note: newNote }, 
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -69,7 +72,7 @@ const Dashboard = () => {
 
   const handleDeleteNote = async (id: string) => {
     try {
-      await axios.delete(`http://localhost:5000/api/notes/${id}`, {
+      await axios.delete(`${API_BASE_URL}/api/notes/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setNotes(notes.filter((note) => note._id !== id));

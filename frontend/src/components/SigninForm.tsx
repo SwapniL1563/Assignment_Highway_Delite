@@ -2,7 +2,8 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const API_BASE = "http://localhost:5000/api/auth";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 
 const SignInForm = () => {
   const [email, setEmail] = useState("");
@@ -23,7 +24,7 @@ const SignInForm = () => {
     setError("");
 
     try {
-      await axios.post(`${API_BASE}/signin-otp`, { email });
+      await axios.post(`${API_BASE_URL}/signin-otp`, { email });
       setOtpSent(true);
     } catch (err: any) {
       setError(err.response?.data?.message || "Failed to send OTP");
@@ -42,7 +43,7 @@ const SignInForm = () => {
     setError("");
 
     try {
-      const res = await axios.post(`${API_BASE}/verify-otp`, { email, otp });
+      const res = await axios.post(`${API_BASE_URL}/verify-otp`, { email, otp });
       localStorage.setItem("token", res.data.token);
       navigate("/dashboard");
     } catch (error: any) {

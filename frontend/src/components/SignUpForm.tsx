@@ -1,8 +1,8 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
-const API_BASE = "http://localhost:5000/api/auth";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const SignUpForm = () => {
   const [name, setName] = useState("");
@@ -27,7 +27,7 @@ const SignUpForm = () => {
     setError("");
 
     try {
-        await axios.post(`${API_BASE}/signup-otp`,{
+        await axios.post(`${API_BASE_URL}/signup-otp`,{
             name,email,dateOfBirth:dob,
         });
 
@@ -49,7 +49,7 @@ const SignUpForm = () => {
     setError("");
 
     try {
-        const res = await axios.post(`${API_BASE}/verify-otp`,{
+        const res = await axios.post(`${API_BASE_URL}/verify-otp`,{
             email,otp
         });
         localStorage.setItem("token",res.data.token);
