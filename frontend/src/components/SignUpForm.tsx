@@ -27,7 +27,7 @@ const SignUpForm = () => {
     setError("");
 
     try {
-        await axios.post(`${API_BASE}/send-otp`,{
+        await axios.post(`${API_BASE}/signup-otp`,{
             name,email,dateOfBirth:dob,
         });
 
@@ -86,7 +86,7 @@ const SignUpForm = () => {
             </>
         )}
 
-        <p className='text-[#969696] text-lg text-center mt-2'>Already have an account? <span onClick={()=>navigate("/")} className='text-[#367AFF] underline cursor-pointer'>Sign in</span></p>
+        <p className='text-[#969696] text-lg text-center mt-2'>Already have an account? {" "} <span onClick={()=>navigate("/")} className='text-[#367AFF] underline cursor-pointer'>Sign in</span></p>
         </div>
     </div>
   )
