@@ -10,8 +10,9 @@ dotenv.config();
 
 const app = express();
 app.use(cors({
-  origin: ["https://assignment-highway-delite.vercel.app/"], 
-  methods: ["GET","POST","PUT","DELETE"],
+  origin: "https://assignment-highway-delite.vercel.app", // your Vercel domain
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
 app.use(express.json())
