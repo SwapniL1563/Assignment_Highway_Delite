@@ -27,7 +27,7 @@ const SignUpForm = () => {
     setError("");
 
     try {
-        await axios.post(`${API_BASE_URL}/signup-otp`,{
+        await axios.post(`${API_BASE_URL}/api/auth/signup-otp`,{
             name,email,dateOfBirth:dob,
         });
 
@@ -49,7 +49,7 @@ const SignUpForm = () => {
     setError("");
 
     try {
-        const res = await axios.post(`${API_BASE_URL}/verify-otp`,{
+        const res = await axios.post(`${API_BASE_URL}/api/auth/verify-otp`,{
             email,otp
         });
         localStorage.setItem("token",res.data.token);

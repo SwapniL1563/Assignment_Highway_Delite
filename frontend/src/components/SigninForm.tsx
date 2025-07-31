@@ -24,7 +24,7 @@ const SignInForm = () => {
     setError("");
 
     try {
-      await axios.post(`${API_BASE_URL}/signin-otp`, { email });
+      await axios.post(`${API_BASE_URL}/api/auth/signin-otp`, { email });
       setOtpSent(true);
     } catch (err: any) {
       setError(err.response?.data?.message || "Failed to send OTP");
@@ -43,7 +43,7 @@ const SignInForm = () => {
     setError("");
 
     try {
-      const res = await axios.post(`${API_BASE_URL}/verify-otp`, { email, otp });
+      const res = await axios.post(`${API_BASE_URL}/api/auth/verify-otp`, { email, otp });
       localStorage.setItem("token", res.data.token);
       navigate("/dashboard");
     } catch (error: any) {
