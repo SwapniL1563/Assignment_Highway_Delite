@@ -5,7 +5,7 @@ import { sendOTP } from "../utils/sendOTP";
 import jwt from "jsonwebtoken"
 import { AuthRequest } from "../middleware/authMiddleware";
 
-export const sendOtp = async(req:Request,res:Response) => {
+export const sendSignupOtp = async(req:Request,res:Response) => {
     try {
         const { email, name, dateOfBirth } = req.body;
 
@@ -46,6 +46,33 @@ export const sendOtp = async(req:Request,res:Response) => {
         })
     }
 }
+
+export const sendSigninOtp = async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found. Please sign up first." });
+    }
+
+    const otp = generateOTP();
+    const otpExpiry = new Date(Date.now() + 60 * 60 * 1000);
+
+    user.otp = otp;
+    user.otpExpiry = otpExpiry;
+    await user.save();
+
+    await sendOTP(email, "Sign In OTP", `Your OTP is ${otp}`);
+    return res.json({ message: "Signin OTP sent to email" });
+  } catch (error) {
+    return res.status(500).json({ message: "Failed to send OTP", error });
+  }
+};
 
 export const verifyOtp = async(req:Request,res:Response) => {
     try {
